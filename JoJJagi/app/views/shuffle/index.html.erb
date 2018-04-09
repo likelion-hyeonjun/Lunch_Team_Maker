@@ -1,0 +1,12 @@
+<h1><strong>맛있게 한끼ㅎ</strong></h1>
+
+<ul>
+     -멤버-
+  <% User.all.each do |u| %>
+    <li> <%= u.name%> </li>
+  <%end%>
+</ul>
+
+<form action="/shuffle/shuffle">
+  <input type="submit" value ="조 짜기">
+</form>

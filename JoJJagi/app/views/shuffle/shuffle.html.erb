@@ -1,0 +1,29 @@
+<ul>
+  <%=@jo1.description %>
+  <% @jo1.users.each do |u| %>
+    <li> <%= u.name%> </li>
+  <%end%>
+</ul>
+
+<ul>
+  <%=@jo2.description %>
+  <% @jo2.users.each do |u| %>
+    <li> <%= u.name%> </li>
+  <%end%>
+</ul>
+
+<ul>
+  <%=@jo3.description %>
+  <% @jo3.users.each do |u| %>
+    <li> <%= u.name%> </li>
+  <%end%>
+</ul>
+
+<ul>
+  <%=@jo4.description %>
+  <% @jo4.users.each do |u| %>
+    <li> <%= u.name%> </li>
+  <%end%>
+</ul>
+
+<%= link_to '돌아가기', shuffle_destroy_path, method: :delete, data: { confirm: '조 변경사항은 저장되지않습니다.' } %>
