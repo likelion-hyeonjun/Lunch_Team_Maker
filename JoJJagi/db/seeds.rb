@@ -29,7 +29,7 @@ User.create(id:19, name:'척', team:'common',jo_id:1)
 User.create(id:20, name:'제이', team:'groove',jo_id:1)
 User.create(id:21, name:'쿠퍼', team:'groove',jo_id:1)
 User.create(id:22, name:'티엠', team:'groove',jo_id:1)
-#User.create(id:23, name:'엘런', team:'groove',jo_id:1) 엘런은..리사랑같이다니기..
-
+# 엘런은..리사랑같이다니기..
+User.create(id:23, name:'엘런', team:'groove',jo_id:1)
 
 
