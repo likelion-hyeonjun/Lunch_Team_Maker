@@ -1,5 +1,0 @@
-<%= form_tag '/shuffle/change' , method: 'put' do %>
-  이름 <%= text_field_tag 'name', @users.name %> <br/>
-  휴가? :<%= check_box_tag('vacation', true, @users.vacation ? {:checked => "checked"} : nil) %> <br/>
-  <%= submit_tag '작성' %>
-<% end %>
