@@ -1,5 +1,12 @@
 class ShuffleController < ApplicationController
+  before_action :set_user, only:[:edit]
+
   def index
+  end
+
+  def change
+    User.find_by_name(params[:name]).update(vacation: params[:vacation])
+    redirect_to '/shuffle/index'
   end
 
   def shuffle
@@ -11,13 +18,17 @@ class ShuffleController < ApplicationController
     end
 
     index = Random.new.rand(0..3)
-    @jo[index+1].users.push(User.where(name:"찬").first)
-    @jo[(index+3)%4+1].users.push(User.where(name:"찰리").first)#찰리 찬은 서로다른곳에 고정
+    if(!User.find_by(name:'찬').vacation)
+      @jo[index+1].users.push(User.where(name:"찬").first)
+    end
+    if(!User.find_by(name:'찰리').vacation)
+      @jo[(index+3)%4+1].users.push(User.where(name:"찰리").first)#찰리 찬은 서로다른곳에 고정
+    end
 
     index = 0
     for i in 0..2
       User.where(team_cd:i).shuffle.each do |u0|
-        if(u0.name != '엘런')
+        if(u0.name != '엘런' && !u0.vacation)
           @jo[(index%4+1)].users.push(u0)
           index += 1
         end
@@ -35,8 +46,18 @@ class ShuffleController < ApplicationController
   def destroy
     Jo.where('description <> ?','전체 멤버 리스트').destroy_all
     User.all.each do |u|
-      u.jo_id = 1 #기본적으로 다시 전체 리스트에 포함되도록 설정
+      Jo.first.users.push(u)
     end
     redirect_to '/shuffle/index'
+  end
+
+
+  def edit
+  end
+
+  private
+
+  def set_user
+    @users = User.find(params[:format])
   end
 end

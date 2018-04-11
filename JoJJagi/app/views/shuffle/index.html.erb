@@ -3,7 +3,7 @@
 <ul>
      -멤버-
   <% User.all.each do |u| %>
-    <li> <%= u.name%> </li>
+        <li> <strong><%= u.name%></strong> <%= link_to 'edit', shuffle_edit_path(u) %> <%= u.vacation ? '휴가중.. ':''%></li>
   <%end%>
 </ul>
 

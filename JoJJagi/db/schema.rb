@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20180411012205) do
     t.datetime "updated_at", null: false
     t.integer "team_cd", default: 0
     t.integer "jo_id"
-    t.boolean "vacation", default: false
+    t.boolean "vacation"
     t.index ["jo_id"], name: "index_users_on_jo_id"
   end
 
