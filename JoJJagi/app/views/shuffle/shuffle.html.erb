@@ -43,4 +43,7 @@
 </ul>
 
 
-<%= link_to '돌아가기', shuffle_destroy_path, method: :delete, data: { confirm: '조 변경사항은 저장되지않습니다.' } %>
+<%= link_to '돌아가기', shuffle_destroy_path, method: :delete, data: { confirm: '조 변경사항은 저장되지않습니다.' } %> </br>
+<%= link_to '조 다시 짜기', shuffle_shuffle_path, method: :get, data: { confirm: '조 변경사항은 저장되지않습니다.' } %> </br>
+</br>
+<strong> <%= link_to 'send to slack', shuffle_sendslack_path, method: :post, data: { confirm: '신중하게보내라..'} %> </strong>

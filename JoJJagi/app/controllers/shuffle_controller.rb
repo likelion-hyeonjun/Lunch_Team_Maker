@@ -1,3 +1,6 @@
+require 'net/http'
+require 'uri'
+
 class ShuffleController < ApplicationController
   before_action :set_user, only:[:edit]
   def index
@@ -12,7 +15,7 @@ class ShuffleController < ApplicationController
 
     User.all.each do |u|
       if u.leader
-        u.leader = nil
+        u.update(:leader => nil)
       end #조장값 초기화
     end
 
@@ -60,6 +63,7 @@ class ShuffleController < ApplicationController
         @jo[i].users.sample.update(leader: true)
     end #랜덤하게 조장뽑기
 
+
   end
 
   def destroy
@@ -75,9 +79,27 @@ class ShuffleController < ApplicationController
     redirect_to '/shuffle/index'
   end
 
+  def sendslack
+    uri = URI.parse("https://hooks.slack.com/services/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")
+    request = Net::HTTP::Post.new(uri)
+    request.set_form_data(
+        "payload" => "{\"text\":\"엘런..안녕..\"}",
+        )
+
+    req_options = {
+        use_ssl: uri.scheme == "https",
+    }
+
+    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      http.request(request)
+    end
+
+  redirect_to '/shuffle/index'
+  end
 
   def edit
   end
+
 
   private
 
