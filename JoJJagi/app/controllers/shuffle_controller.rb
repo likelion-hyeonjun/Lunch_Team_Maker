@@ -1,6 +1,6 @@
 require 'net/http'
 require 'uri'
-
+require 'json'
 class ShuffleController < ApplicationController
   before_action :set_user, only:[:edit]
   def index
@@ -12,12 +12,13 @@ class ShuffleController < ApplicationController
   end
 
   def shuffle
-
+    Jo.where('description <> ?','전체 멤버 리스트').destroy_all
     User.all.each do |u|
       if u.leader
         u.update(:leader => nil)
       end #조장값 초기화
-    end
+      Jo.first.users.push(u)
+    end #이부분 코드 중복 ㅠㅠ 어떻게든 고칠수있을거같은데 오류떠서 무서워서 못고치겟다
 
     @jo = []
 
@@ -25,15 +26,15 @@ class ShuffleController < ApplicationController
       @jo[i] = Jo.create(description:"#{i}조")
     end
 
-    index = Random.new.rand(0..3)
-    if(!User.find_by(name:'찬').vacation)
-      @jo[index+1].users.push(User.where(name:"찬").first)
-    end
-    if(!User.find_by(name:'찰리').vacation)
-      @jo[(index+3)%4+1].users.push(User.where(name:"찰리").first)#찰리 찬은 서로다른곳에 고정
-    end
-
     loop do
+      index = Random.new.rand(0..3)
+        if(!User.find_by(name:'찬').vacation)
+          @jo[index+1].users.push(User.where(name:"찬").first)
+        end
+        if(!User.find_by(name:'찰리').vacation)
+          @jo[(index+3)%4+1].users.push(User.where(name:"찰리").first)#찰리 찬은 서로다른곳에 고정
+        end
+
       index = 0
       for i in 0..2
        User.where(team_cd:i, vacation:nil).shuffle.each do |u0|
@@ -54,7 +55,7 @@ class ShuffleController < ApplicationController
       break if (jo_length.max - jo_length.min < 3)
 
       for i in 1..4
-        @jo[i].users = nil
+        @jo[i].users = []
       end
 
     end
@@ -80,12 +81,32 @@ class ShuffleController < ApplicationController
   end
 
   def sendslack
-    uri = URI.parse("https://hooks.slack.com/services/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")
-    request = Net::HTTP::Post.new(uri)
-    request.set_form_data(
-        "payload" => "{\"text\":\"엘런..안녕..\"}",
-        )
+    json = ""
+    Jo.where("id<>1").each do |j|
+      json += "#{j.description} :\n"
+          j.users.each do |u|
+          if u.leader
+            json +="<조장: #{u.name}>  "
+         else
+           json +="'#{u.name}'  "
+         end
+        end
+      json += "\n"
+    end
 
+    uri = URI.parse("https://hooks.slack.com/services/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")
+    request = Net::HTTP::Post.new(uri)
+    request.content_type = "application/json"
+    request.body = JSON.dump({   "username" => "delicious_lunch_bot",
+                                 "icon_emoji" => ":hamburger:",
+                                 "attachments": [
+                                 {
+                                     "fallback":"",
+                                     "title": "오늘 점심을 같이 먹을 동료들입니다.",
+                                     "text": "#{json}",
+                                     "color": "#7CD197"
+                                 }
+    ]})
     req_options = {
         use_ssl: uri.scheme == "https",
     }
@@ -93,8 +114,7 @@ class ShuffleController < ApplicationController
     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
       http.request(request)
     end
-
-  redirect_to '/shuffle/index'
+    redirect_to '/shuffle/index'
   end
 
   def edit

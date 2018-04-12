@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20180412014430) do
     t.integer "team_cd", default: 0
     t.integer "jo_id"
     t.boolean "vacation"
-    t.boolean "leader" , default: false
+    t.boolean "leader"
     t.index ["jo_id"], name: "index_users_on_jo_id"
   end
 
