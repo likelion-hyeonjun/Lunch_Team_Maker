@@ -1,28 +1,44 @@
 <ul>
   <%=@jo[1].description %>
   <% @jo[1].users.each do |u| %>
-    <li> <%= u.name%> </li>
+    <% if u.leader %>
+      <li> <strong><span style= "color: brown;"><%= u.name%></span></strong> <----- 조장  </li>
+    <% else %>
+      <li> <%= u.name%> </li>
+    <% end %>
   <%end%>
 </ul>
 
 <ul>
   <%=@jo[2].description %>
   <% @jo[2].users.each do |u| %>
-    <li> <%= u.name%> </li>
+    <% if u.leader %>
+      <li> <strong><span style= "color: brown;"><%= u.name%></span></strong> <----- 조장  </li>
+    <% else %>
+      <li> <%= u.name%> </li>
+    <% end %>
   <%end%>
 </ul>
 
 <ul>
   <%=@jo[3].description %>
   <% @jo[3].users.each do |u| %>
-    <li> <%= u.name%> </li>
+    <% if u.leader %>
+      <li> <strong><span style= "color: brown;"><%= u.name%></span></strong> <----- 조장  </li>
+    <% else %>
+      <li> <%= u.name%> </li>
+    <% end %>
   <%end%>
 </ul>
 
 <ul>
   <%=@jo[4].description %>
   <% @jo[4].users.each do |u| %>
-    <li> <%= u.name%> </li>
+    <% if u.leader %>
+      <li> <strong><span style= "color: brown;"><%= u.name%></span></strong> <----- 조장  </li>
+    <% else %>
+      <li> <%= u.name%> </li>
+    <% end %>
   <%end%>
 </ul>
 

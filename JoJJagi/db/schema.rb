@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180411012205) do
+ActiveRecord::Schema.define(version: 20180412014430) do
 
   create_table "jos", force: :cascade do |t|
     t.text "description"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20180411012205) do
     t.integer "team_cd", default: 0
     t.integer "jo_id"
     t.boolean "vacation"
+    t.boolean "leader" , default: false
     t.index ["jo_id"], name: "index_users_on_jo_id"
   end
 
