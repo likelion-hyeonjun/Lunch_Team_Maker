@@ -94,7 +94,7 @@ class ShuffleController < ApplicationController
       json += "\n"
     end
 
-    uri = URI.parse("https://hooks.slack.com/services/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")
+    uri = URI.parse("https://hooks.slack.com/services/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")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
     request.body = JSON.dump({   "username" => "delicious_lunch_bot",
