@@ -36,7 +36,7 @@ class ShuffleController < ApplicationController
         end
 
       index = 0
-      for i in 0..2
+      for i in 0..3
        User.where(team_cd:i, vacation:nil).shuffle.each do |u0|
          if(u0.name != '엘런')
            @jo[(index%4+1)].users.push(u0)
@@ -45,11 +45,20 @@ class ShuffleController < ApplicationController
        end
       end #shuffle과정 엘런은 제약이있기때문에 일단 뺴놓음
 
-      for i in 1..4
-       if @jo[i].users.exists?(:name=>'리사')
-         @jo[i].users.push(User.find(23))
-       end
-      end #리사가 있는 조에 엘런 추가
+
+      #엘런 조에 랜덤하게 추가, 리사가 휴가일때와 아닐때를 구분해서 추가함
+     if !User.find_by(name:'엘런').vacation? #엘런이 휴가중 아닐때만
+        if User.find_by(name:'리사').vacation? #리사 휴가중일때 / 로직이 리사가 휴가중이라면 엘런도 아만다 서버팀에 맞춰 랜덤하게 들어가야 할텐데
+          elleon = User.find_by(name:'엘런')
+         @jo[index%4+1].users.push(elleon)
+        else #리사 휴가중아닐때
+          for i in 1..4
+            if @jo[i].users.exists?(:name=>'리사')
+               @jo[i].users.push(User.find(23))
+            end
+          end #리사가 있는 조에 엘런 추가
+        end
+      end
 
       jo_length = [@jo[1].users.length , @jo[2].users.length , @jo[3].users.length , @jo[4].users.length]
       break if (jo_length.max - jo_length.min < 3)
@@ -99,6 +108,7 @@ class ShuffleController < ApplicationController
     request.content_type = "application/json"
     request.body = JSON.dump({   "username" => "delicious_lunch_bot",
                                  "icon_emoji" => ":hamburger:",
+                                 "text"=> "@channel",
                                  "attachments": [
                                  {
                                      "fallback":"",

@@ -1,47 +1,20 @@
-<ul>
-  <%=@jo[1].description %>
-  <% @jo[1].users.each do |u| %>
-    <% if u.leader %>
-      <li> <strong><span style= "color: brown;"><%= u.name%></span></strong> <----- 조장  </li>
-    <% else %>
-      <li> <%= u.name%> </li>
-    <% end %>
-  <%end%>
-</ul>
+<% count = 0 %>
 
-<ul>
-  <%=@jo[2].description %>
-  <% @jo[2].users.each do |u| %>
-    <% if u.leader %>
-      <li> <strong><span style= "color: brown;"><%= u.name%></span></strong> <----- 조장  </li>
-    <% else %>
-      <li> <%= u.name%> </li>
-    <% end %>
-  <%end%>
-</ul>
+<% for i in 1..4 %>
+  <ul>
+   <%=@jo[i].description %>
+   <% @jo[i].users.each do |u| %>
+      <% count += 1 %>
+     <% if u.leader %>
+       <li> <strong><span style= "color: brown;"><%= u.name%></span></strong> <----- 조장  </li>
+     <% else %>
+       <li> <%= u.name%> </li>
+     <% end %>
+   <%end%>
+  </ul>
+<%end%>
 
-<ul>
-  <%=@jo[3].description %>
-  <% @jo[3].users.each do |u| %>
-    <% if u.leader %>
-      <li> <strong><span style= "color: brown;"><%= u.name%></span></strong> <----- 조장  </li>
-    <% else %>
-      <li> <%= u.name%> </li>
-    <% end %>
-  <%end%>
-</ul>
-
-<ul>
-  <%=@jo[4].description %>
-  <% @jo[4].users.each do |u| %>
-    <% if u.leader %>
-      <li> <strong><span style= "color: brown;"><%= u.name%></span></strong> <----- 조장  </li>
-    <% else %>
-      <li> <%= u.name%> </li>
-    <% end %>
-  <%end%>
-</ul>
-
+<li> total_count : <%=count %></li>
 
 <%= link_to '돌아가기', shuffle_destroy_path, method: :delete, data: { confirm: '조 변경사항은 저장되지않습니다.' } %> </br>
 <%= link_to '조 다시 짜기', shuffle_shuffle_path, method: :get, data: { confirm: '조 변경사항은 저장되지않습니다.' } %> </br>
